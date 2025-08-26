@@ -1,0 +1,13 @@
+# Visual Studio
+.vscode/
+
+# Build directories
+build/
+
+# Compiled object files
+*.o
+*.obj
+*.exe
+
+assets/*.png
+assets/*.jpg
