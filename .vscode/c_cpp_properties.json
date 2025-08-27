@@ -3,7 +3,7 @@
     {
       "name": "MSYS2",
       "includePath": [
-        "${workspaceFolder}/**",
+        "${workspaceFolder}/include/*",
         "C:/includes/SFML-2.6.1/include"
       ],
       "defines": [],
