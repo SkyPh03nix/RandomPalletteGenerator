@@ -9,5 +9,8 @@ build/
 *.obj
 *.exe
 
+*.pptx // UI design testing 
+*.txt // Project notes, ideas, todos
+
 assets/*.png
 assets/*.jpg
