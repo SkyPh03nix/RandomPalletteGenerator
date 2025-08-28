@@ -64,6 +64,10 @@ void App::run() {
                 window.close();
             else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
                 window.close();
+
+            // Buttons Events
+            for (auto& btn : buttons)
+                btn.handleEvent(event, window);
         }
 
         window.clear(sf::Color::Black);
