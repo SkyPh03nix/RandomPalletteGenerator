@@ -1,5 +1,7 @@
 🎨Random Color Palette Generator
 
+Currently work in progress. Goal:
+
 Ein einfacher **Random Color Palette Generator** in **C++** mit **SFML**.
 Das Programm erzeugt Farbfelder basierend auf verschiedenen Farbmodi (z.B. Random, Komplementär, Analog) 
 
