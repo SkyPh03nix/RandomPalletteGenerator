@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <functional>
+#include <iostream>
 
 class Button : public sf::Drawable {
 private:
@@ -17,6 +18,6 @@ public:
 
     bool contains(const sf::Vector2f& point) const;
     void setFillColor(const sf::Color& color) {shape.setFillColor(color);}
-    void setOnClick(const std::function<void()>& callback) {onClick = std::move(callback);}
+    void setOnClick(const std::function<void()>& callback) {onClick = std::move(callback); std::cout<<__PRETTY_FUNCTION__;}
     void handleEvent(const sf::Event& event, const sf::RenderWindow& window);
 };

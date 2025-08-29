@@ -1,6 +1,7 @@
 #include "App.h"
 #include <cstdlib>
 #include <ctime>
+#include "PaletteGenerator.h"
 
 App::App() : window(sf::VideoMode(800,600), "Random Color Palette") {
     font.loadFromFile("assets/arial.ttf");
@@ -10,7 +11,16 @@ App::App() : window(sf::VideoMode(800,600), "Random Color Palette") {
         "Random", "Analogous", "Monochrome",
         "Triad", "Complementary", "Save"
     };
-    layoutButtons(labels);
+    std::vector<std::function<void()>> actions = {
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);}, //TODO change functions to fit button labels
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
+        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);}
+    };
+
+    layoutButtons(labels, actions);
 
     // Test-Palette (random colors)
     std::srand(static_cast<unsigned>(std::time(nullptr)));
@@ -38,7 +48,7 @@ void App::layoutColorBoxes(const std::vector<sf::Color>& colors) {
     }
 }
 
-void App::layoutButtons(const std::vector<std::string>& labels) {
+void App::layoutButtons(const std::vector<std::string>& labels, const std::vector<std::function<void()>>& actions) {
     buttons.clear();
 
     float winWidth  = window.getSize().x;
@@ -53,6 +63,10 @@ void App::layoutButtons(const std::vector<std::string>& labels) {
         sf::Vector2f size(buttonWidth, buttonHeight);
 
         buttons.emplace_back(pos, size, labels[i], font);
+
+        if (i < actions.size()) {
+            buttons.back().setOnClick(actions[i]);
+        }
     }
 }
 
