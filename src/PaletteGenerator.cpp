@@ -3,21 +3,61 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include <ctime>
-#include <cstdlib>
+#include <random>
 
 std::vector<sf::Color> PaletteGenerator::generateRandomPalette(int count) {
     std::vector<sf::Color> palette;
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    palette.reserve(count);
+
+    //random function independent of time
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> dis(0, 255);
+
     for (int i = 0; i < count; ++i) 
-        palette.emplace_back(rand() % 256, rand() % 256, rand() % 256);
+        palette.emplace_back(dis(gen), dis(gen), dis(gen));
     return palette;
+}
+
+//HSV → RGB (0 <= h < 360, 0 <= s,v <= 1)
+sf::Color PaletteGenerator::hsvToRgb(int h, float s, float v) {
+    //c = chroma for color intensity
+    float c = v * s;
+    float x = c * (1 - std::fabs(fmod(h / 60.0f, 2) - 1));
+    float m = v - c;
+
+    // calculate 60-degree sector of the color wheel
+    float r = 0, g = 0, b = 0;
+    if (h < 60)      { r = c; g = x; b = 0; } // red to yellow
+    else if (h < 120){ r = x; g = c; b = 0; } // yellow to green
+    else if (h < 180){ r = 0; g = c; b = x; } // green to cyan
+    else if (h < 240){ r = 0; g = x; b = c; } // cyan to blue
+    else if (h < 300){ r = x; g = 0; b = c; } // blue to magenta
+    else             { r = c; g = 0; b = x; } // magenta to red
+
+    return sf::Color(
+        static_cast<sf::Uint8>((r + m) * 255),
+        static_cast<sf::Uint8>((g + m) * 255),
+        static_cast<sf::Uint8>((b + m) * 255)
+    );
 }
 
 std::vector<sf::Color> PaletteGenerator::generateAnalogousPalette(int count) {
     std::vector<sf::Color> colors;
-    int baseHue = rand() % 360;
-    //TODO: Implement analogous color generation
+
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> hueDis(0, 359);
+    static std::uniform_int_distribution<> stepDist(15, 30);
+
+    int baseHue = hueDis(gen);
+    int step = stepDist(gen);
+
+    for (int i = 0; i < count; ++i) {
+        int hue = (baseHue + i * step) % 360;
+        colors.push_back(hsvToRgb(hue, 0.7f, 0.9f));
+    }
+
     return colors;
 }
 

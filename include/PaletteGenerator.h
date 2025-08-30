@@ -14,4 +14,7 @@ public:
 
     // Palette speichern
     void savePalette(const std::vector<class ColorBox>& boxes, const std::string& filename = "palette.png");
+
+private:
+    static sf::Color hsvToRgb(int h, float s, float v);
 };
