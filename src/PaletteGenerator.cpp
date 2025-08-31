@@ -61,7 +61,31 @@ std::vector<sf::Color> PaletteGenerator::generateAnalogousPalette(int count) {
     return colors;
 }
 
-std::vector<sf::Color> PaletteGenerator::generateMonochromePalette(int count) {}
+std::vector<sf::Color> PaletteGenerator::generateMonochromePalette(int count) {
+    std::vector<sf::Color> colors;
+
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<> hueDis(0, 359);
+    static std::uniform_real_distribution<float> valDis(0.1f, 0.3f);
+    static std::uniform_real_distribution<float> satDis(0.1f, 0.3f);
+
+    int baseHue = hueDis(gen);
+
+    float saturation = 1.0f;
+    float value = 1.0f;
+
+    for (int i = 0; i < count; ++i) {
+        colors.push_back(hsvToRgb(baseHue, saturation, value));
+
+        saturation -= satDis(gen);
+        if(saturation < 0.1f) saturation = 0.1f;
+
+        value -= valDis(gen);
+        if (value < 0.1f) value = 0.1f;
+    }
+    return colors;
+}
 
 std::vector<sf::Color> PaletteGenerator::generateTriadPalette(int count) {}
 

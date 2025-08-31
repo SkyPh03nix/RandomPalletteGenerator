@@ -14,7 +14,7 @@ App::App() : window(sf::VideoMode(800,600), "Random Color Palette") {
     std::vector<std::function<void()>> actions = {
         [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);}, //TODO change functions to fit button labels
         [this]() {auto colors = generator.generateAnalogousPalette(); layoutColorBoxes(colors);},
-        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
+        [this]() {auto colors = generator.generateMonochromePalette(); layoutColorBoxes(colors);},
         [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
         [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);},
         [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);}
