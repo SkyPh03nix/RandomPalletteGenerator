@@ -9,7 +9,7 @@ public:
     std::vector<sf::Color> generateRandomPalette(int count = 5);
     std::vector<sf::Color> generateAnalogousPalette(int count = 5);
     std::vector<sf::Color> generateMonochromePalette(int count = 5);
-    std::vector<sf::Color> generateTriadPalette(int count = 5);
+    std::vector<sf::Color> generateTriadPalette(int count = 3);
     std::vector<sf::Color> generateComplementaryPalette(int count = 5);
 
     // Palette speichern
