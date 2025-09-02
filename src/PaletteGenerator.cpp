@@ -84,7 +84,7 @@ std::vector<sf::Color> PaletteGenerator::generateMonochromePalette(int count) {
     return colors;
 }
 
-std::vector<sf::Color> PaletteGenerator::generateTriadPalette(int count) {
+std::vector<sf::Color> PaletteGenerator::generateOpositePalette(int count) {
     std::vector<sf::Color> colors;
 
     static std::random_device rd;
@@ -92,7 +92,7 @@ std::vector<sf::Color> PaletteGenerator::generateTriadPalette(int count) {
     static std::uniform_int_distribution<> hueDis(0, 359);
 
     int baseHue = hueDis(gen);
-    float step = 360.0f/count; // Triad colors are 120 degrees apart
+    float step = 360.0f/count; 
     float saturation = 0.7f;
     float value = 0.9f;
 
@@ -102,8 +102,6 @@ std::vector<sf::Color> PaletteGenerator::generateTriadPalette(int count) {
     }
     return colors;
 }
-
-std::vector<sf::Color> PaletteGenerator::generateComplementaryPalette(int count) {}
 
 void PaletteGenerator::savePalette(const std::vector<ColorBox>& boxes, const std::string& filename) {
     if (boxes.empty()) return;

@@ -4,29 +4,26 @@
 #include "PaletteGenerator.h"
 
 App::App() : window(sf::VideoMode(800,600), "Random Color Palette") {
-    font.loadFromFile("assets/arial.ttf");
+    if (!font.loadFromFile("assets/arial.ttf")) {
+        throw std::runtime_error("Font konnte nicht geladen werden!");
+    }
 
     // Test-Buttons
     std::vector<std::string> labels = {
-        "Random", "Analogous", "Monochrome",
-        "Oposites", "Save"
+        "Random", "Analogous", "Monochrome","Oposites", "Save"
     };
     std::vector<std::function<void()>> actions = {
-        [this]() {auto colors = generator.generateRandomPalette(8); layoutColorBoxes(colors);}, //TODO change functions to fit button labels
+        [this]() {auto colors = generator.generateRandomPalette(8); layoutColorBoxes(colors);},
         [this]() {auto colors = generator.generateAnalogousPalette(8); layoutColorBoxes(colors);},
         [this]() {auto colors = generator.generateMonochromePalette(8); layoutColorBoxes(colors);},
-        [this]() {auto colors = generator.generateTriadPalette(8); layoutColorBoxes(colors);},
-        [this]() {auto colors = generator.generateRandomPalette(); layoutColorBoxes(colors);}
+        [this]() {auto colors = generator.generateOpositePalette(8); layoutColorBoxes(colors);}, 
     };
 
     layoutButtons(labels, actions);
 
-    // Test-Palette (random colors)
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    // random palette on app start
     std::vector<sf::Color> colors;
-    for (int i = 0; i < 5; i++) {
-        colors.push_back(sf::Color(rand()%256, rand()%256, rand()%256));
-    }
+    colors = generator.generateRandomPalette(8);
     layoutColorBoxes(colors);
 }
 
@@ -43,7 +40,7 @@ void App::layoutColorBoxes(const std::vector<sf::Color>& colors) {
         sf::Vector2f pos(i * boxWidth, 0);
         sf::Vector2f size(boxWidth, colorAreaHeight);
 
-        colorBoxes.emplace_back(pos, size, colors[i]);
+        colorBoxes.emplace_back(pos, size, colors[i], font);
     }
 }
 
